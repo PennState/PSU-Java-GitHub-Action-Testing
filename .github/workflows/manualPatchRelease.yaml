@@ -1,13 +1,6 @@
 name: Manual - Patch Release
 on:
   workflow_dispatch:
-    inputs:
-      releaseVersion:
-        description: 'version to release under ie 2.0.1'
-        default: 'x.y.z'
-      nextIncrementVersion:
-        description: 'version to release under ie 2.0.2-SNAPSHOT'
-        default: 'x.y.z+1-SNAPSHOT'
 
 jobs:
   build:
