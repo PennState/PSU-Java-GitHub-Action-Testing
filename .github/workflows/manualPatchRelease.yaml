@@ -1,12 +1,14 @@
 name: Manual - Patch Release
 on:
   workflow_dispatch:
-    input:
+    inputs:
       releaseVersion:
-        description: 'Version to Release ie 1.2.3'
+        description: 'Version to Release ie 1.2.3'    
+        required: true
         default: 'x.y.z'
       nextVersion:
-        description: 'Version to Release ie 1.2.3-SNAPSHOT'
+        description: 'Version to Release ie 1.2.3-SNAPSHOT'    
+        required: true
         default: 'x.y.z+1'
 
 jobs:
