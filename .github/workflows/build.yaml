@@ -137,7 +137,7 @@ jobs:
         OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
         releaseVersion: ${{github.events.input.releaseVersion}}
         nextVersion: ${{github.events.input.nextVersion}}
-  
+   
   release_major:
     if: "contains(github.event.head_commit.message, 'release: major')"
     
