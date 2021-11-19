@@ -66,30 +66,31 @@ jobs:
       id: get_semver
       with: 
         bump_level: "patch"
+        verbose: true
 
 
-    - name: Patch Release with Maven
-      shell: bash
-      run: |
-        git config --global user.name "ais-swe-ci"
-        git config --global user.email "aitci@psu.edu"
-        git checkout develop
-        echo "git log"
-        git log
-        echo -n $SIGNING_PRIVATE | base64 -di > ~/private.asc
-        gpg --pinentry-mode loopback --batch --no-tty --yes --passphrase $SIGNING_PASSPHRASE --import ~/private.asc
-        mvn -B clean build-helper:parse-version jgitflow:release-start -DreleaseVersion=${{ steps.get_semver.outputs.current_version }} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
-        mvn -B jgitflow:release-finish -Dgpg.passphrase=$SIGNING_PASSPHRASE -DreleaseVersion=${{ steps.get_semver.outputs.current_version }} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
-        git checkout develop
-        git commit --amend -m '[skip-ci] Updating develop poms back to pre merge state'
-        git push --all --follow-tags
-      env:
-        SIGNING_PRIVATE: ${{secrets.SIGNING_PRIVATE}}
-        SIGNING_PASSPHRASE: ${{secrets.SIGNING_PASSPHRASE}}
-        OSSRH_USERNAME: aitci
-        OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
-        releaseVersion: ${{github.events.input.releaseVersion}}
-        nextVersion: ${{github.events.input.nextVersion}}
+    # - name: Patch Release with Maven
+    #   shell: bash
+    #   run: |
+    #     git config --global user.name "ais-swe-ci"
+    #     git config --global user.email "aitci@psu.edu"
+    #     git checkout develop
+    #     echo "git log"
+    #     git log
+    #     echo -n $SIGNING_PRIVATE | base64 -di > ~/private.asc
+    #     gpg --pinentry-mode loopback --batch --no-tty --yes --passphrase $SIGNING_PASSPHRASE --import ~/private.asc
+    #     mvn -B clean build-helper:parse-version jgitflow:release-start -DreleaseVersion=${{ steps.get_semver.outputs.current_version }} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
+    #     mvn -B jgitflow:release-finish -Dgpg.passphrase=$SIGNING_PASSPHRASE -DreleaseVersion=${{ steps.get_semver.outputs.current_version }} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
+    #     git checkout develop
+    #     git commit --amend -m '[skip-ci] Updating develop poms back to pre merge state'
+    #     git push --all --follow-tags
+    #   env:
+    #     SIGNING_PRIVATE: ${{secrets.SIGNING_PRIVATE}}
+    #     SIGNING_PASSPHRASE: ${{secrets.SIGNING_PASSPHRASE}}
+    #     OSSRH_USERNAME: aitci
+    #     OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
+    #     releaseVersion: ${{github.events.input.releaseVersion}}
+    #     nextVersion: ${{github.events.input.nextVersion}}
   
   release_minor:
     if: "contains(github.event.head_commit.message, 'release: minor')"
@@ -109,34 +110,35 @@ jobs:
         server-username: OSSRH_USERNAME
         server-password: OSSRH_PASSWORD
 
-    - name: Increment Step Minor
-      uses: rickstaa/action-get-semver@v1
-      id: get_semver
-      with: 
-        bump_level: "minor"
+    # - name: Increment Step Minor
+    #   uses: rickstaa/action-get-semver@v1
+    #   id: get_semver
+    #   with: 
+    #     bump_level: "minor"
+    #     verbose: true
 
-    - name: Minor Release with Maven
-      shell: bash
-      run: |
-        git config --global user.name "ais-swe-ci"
-        git config --global user.email "aitci@psu.edu"
-        git checkout develop
-        echo "git log"
-        git log
-        echo -n $SIGNING_PRIVATE | base64 -di > ~/private.asc
-        gpg --pinentry-mode loopback --batch --no-tty --yes --passphrase $SIGNING_PASSPHRASE --import ~/private.asc
-        mvn -B clean build-helper:parse-version jgitflow:release-start -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
-        mvn -B jgitflow:release-finish -Dgpg.passphrase=$SIGNING_PASSPHRASE -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
-        git checkout develop
-        git commit --amend -m '[skip-ci] Updating develop poms back to pre merge state'
-        git push --all --follow-tags
-      env:
-        SIGNING_PRIVATE: ${{secrets.SIGNING_PRIVATE}}
-        SIGNING_PASSPHRASE: ${{secrets.SIGNING_PASSPHRASE}}
-        OSSRH_USERNAME: aitci
-        OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
-        releaseVersion: ${{github.events.input.releaseVersion}}
-        nextVersion: ${{github.events.input.nextVersion}}
+    # - name: Minor Release with Maven
+    #   shell: bash
+    #   run: |
+    #     git config --global user.name "ais-swe-ci"
+    #     git config --global user.email "aitci@psu.edu"
+    #     git checkout develop
+    #     echo "git log"
+    #     git log
+    #     echo -n $SIGNING_PRIVATE | base64 -di > ~/private.asc
+    #     gpg --pinentry-mode loopback --batch --no-tty --yes --passphrase $SIGNING_PASSPHRASE --import ~/private.asc
+    #     mvn -B clean build-helper:parse-version jgitflow:release-start -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
+    #     mvn -B jgitflow:release-finish -Dgpg.passphrase=$SIGNING_PASSPHRASE -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
+    #     git checkout develop
+    #     git commit --amend -m '[skip-ci] Updating develop poms back to pre merge state'
+    #     git push --all --follow-tags
+    #   env:
+    #     SIGNING_PRIVATE: ${{secrets.SIGNING_PRIVATE}}
+    #     SIGNING_PASSPHRASE: ${{secrets.SIGNING_PASSPHRASE}}
+    #     OSSRH_USERNAME: aitci
+    #     OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
+    #     releaseVersion: ${{github.events.input.releaseVersion}}
+    #     nextVersion: ${{github.events.input.nextVersion}}
    
   release_major:
     if: "contains(github.event.head_commit.message, 'release: major')"
@@ -161,26 +163,27 @@ jobs:
       id: get_semver
       with: 
         bump_level: "major"
+        verbose: true
 
-    - name: Major Release with Maven
-      shell: bash
-      run: |
-        git config --global user.name "ais-swe-ci"
-        git config --global user.email "aitci@psu.edu"
-        git checkout develop
-        echo "git log"
-        git log
-        echo -n $SIGNING_PRIVATE | base64 -di > ~/private.asc
-        gpg --pinentry-mode loopback --batch --no-tty --yes --passphrase $SIGNING_PASSPHRASE --import ~/private.asc
-        mvn -B clean build-helper:parse-version jgitflow:release-start -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
-        mvn -B jgitflow:release-finish -Dgpg.passphrase=$SIGNING_PASSPHRASE -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
-        git checkout develop
-        git commit --amend -m '[skip-ci] Updating develop poms back to pre merge state'
-        git push --all --follow-tags
-      env:
-        SIGNING_PRIVATE: ${{secrets.SIGNING_PRIVATE}}
-        SIGNING_PASSPHRASE: ${{secrets.SIGNING_PASSPHRASE}}
-        OSSRH_USERNAME: aitci
-        OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
-        releaseVersion: ${{github.events.input.releaseVersion}}
-        nextVersion: ${{github.events.input.nextVersion}}
+    # - name: Major Release with Maven
+    #   shell: bash
+    #   run: |
+    #     git config --global user.name "ais-swe-ci"
+    #     git config --global user.email "aitci@psu.edu"
+    #     git checkout develop
+    #     echo "git log"
+    #     git log
+    #     echo -n $SIGNING_PRIVATE | base64 -di > ~/private.asc
+    #     gpg --pinentry-mode loopback --batch --no-tty --yes --passphrase $SIGNING_PASSPHRASE --import ~/private.asc
+    #     mvn -B clean build-helper:parse-version jgitflow:release-start -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
+    #     mvn -B jgitflow:release-finish -Dgpg.passphrase=$SIGNING_PASSPHRASE -DreleaseVersion=${steps.get_semver.outputs.current_version} -DdevelopmentVersion=${{ steps.get_semver.outputs.next_version }}-SNAPSHOT -DallowUntracked=true -DallowSnapshots=false -DallowUntracked=true -Psign-artifacts
+    #     git checkout develop
+    #     git commit --amend -m '[skip-ci] Updating develop poms back to pre merge state'
+    #     git push --all --follow-tags
+    #   env:
+    #     SIGNING_PRIVATE: ${{secrets.SIGNING_PRIVATE}}
+    #     SIGNING_PASSPHRASE: ${{secrets.SIGNING_PASSPHRASE}}
+    #     OSSRH_USERNAME: aitci
+    #     OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
+    #     releaseVersion: ${{github.events.input.releaseVersion}}
+    #     nextVersion: ${{github.events.input.nextVersion}}
