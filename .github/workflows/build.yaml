@@ -12,8 +12,8 @@ on:
 jobs:
   build:
     if: |
-      "!contains(github.event.head_commit.message, 'skip-ci')" ||
-      "!contains(github.event.head_commit.message, 'release:')"
+      !contains(github.event.head_commit.message, 'skip-ci') ||
+      !contains(github.event.head_commit.message, 'release:')
 
     runs-on: ubuntu-latest
 
@@ -44,7 +44,7 @@ jobs:
        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
   
   release_patch:
-    if: "contains(github.event.head_commit.message, 'release: patch')"
+    if: contains(github.event.head_commit.message, 'release: patch')
 
     runs-on: ubuntu-latest
     steps:
@@ -92,7 +92,7 @@ jobs:
         nextVersion: ${{github.events.input.nextVersion}}
   
   release_minor:
-    if: "contains(github.event.head_commit.message, 'release: minor')"
+    if: contains(github.event.head_commit.message, 'release: minor')
     
     runs-on: ubuntu-latest
     steps:
@@ -139,7 +139,7 @@ jobs:
         nextVersion: ${{github.events.input.nextVersion}}
   
   release_major:
-    if: "contains(github.event.head_commit.message, 'release: major')"
+    if: contains(github.event.head_commit.message, 'release: major')
     
     runs-on: ubuntu-latest
     steps:
