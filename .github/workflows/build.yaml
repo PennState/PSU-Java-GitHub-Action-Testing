@@ -110,12 +110,12 @@ jobs:
         server-username: OSSRH_USERNAME
         server-password: OSSRH_PASSWORD
 
-    # - name: Increment Step Minor
-    #   uses: rickstaa/action-get-semver@v1
-    #   id: get_semver
-    #   with: 
-    #     bump_level: "minor"
-    #     verbose: true
+    - name: Increment Step Minor
+      uses: rickstaa/action-get-semver@v1
+      id: get_semver
+      with: 
+        bump_level: "minor"
+        verbose: true
 
     # - name: Minor Release with Maven
     #   shell: bash
