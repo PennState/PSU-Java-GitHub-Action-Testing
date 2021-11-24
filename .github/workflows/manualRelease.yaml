@@ -71,6 +71,12 @@ jobs:
         echo "UncommittedChanges: ${{ steps.gitversion.outputs.uncommittedChanges }}"
         echo "CommitDate: ${{ steps.gitversion.outputs.commitDate }}"
 
+    - name: Display GitVersion config
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        useConfigFile: true
+        additionalArguments: '/showConfig'
+        
     # - name: Patch Release with Maven
     #   shell: bash
     #   run: |
