@@ -28,7 +28,7 @@ jobs:
         verbose: true
 
     - name: Setup gitversion
-      uses: gitversion/setup@v0.9.7
+      uses: gitversion/actions/gitversion/setup@v0.9.7
 
     - name: Determine Version
       id:   gitversion
