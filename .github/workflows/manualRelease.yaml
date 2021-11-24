@@ -1,4 +1,4 @@
-name: Manual - Patch Release
+name: Manual - Automatic Release Calculating
 on:
   workflow_dispatch:
 
